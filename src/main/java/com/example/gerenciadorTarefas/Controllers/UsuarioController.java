@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,46 +29,50 @@ public class UsuarioController {
     private UsuarioRepository repository;
     
     @PostMapping
-    public Usuario postUsuario(@RequestBody @Valid Usuario usuario){
-        return repository.save(usuario);
+    public ResponseEntity<Usuario> postUsuario(@RequestBody @Valid Usuario usuario){
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(usuario));
     }
     
     @GetMapping(value ="/{id}")
-    public Usuario getUsuario(@PathVariable int id){
-      Usuario usuario= repository.findById(id).get();
-      return usuario;
+    public ResponseEntity<Object> getUsuario(@PathVariable int id){
+      Optional<Usuario> usuario= repository.findById(id);
+      if(usuario.isEmpty()){
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Usuário não encontrado").getMessage());
+      }
+      return ResponseEntity.status(HttpStatus.OK).body(usuario.get());
     }
     
+    
     @GetMapping(value ="")
-    public List<Usuario> getUsuarios(){
-        System.out.println("BATEU");
-        return repository.findAll();
+    public ResponseEntity<List<Usuario>> getUsuarios(){
+        return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
     }
     
     //alteracao do usuario completo (Mesmo id, valores diferentes)
     @PutMapping(value = "/{id}")
-    public Usuario putUsuario(@RequestBody @Valid Usuario usuario, @PathVariable int id){
-        
-        Optional<Usuario> usuariobd = repository.findById(usuario.getId());
-        if(usuariobd.isEmpty()){
-            return new Usuario();
-        }
-        
-        
-        BeanUtils.copyProperties(usuario, usuariobd.get());
-        repository.save(usuario);
-        return usuario;
-    }
-    
-    @DeleteMapping(value = "/{id}")
-    public String deleteUsuario(@PathVariable(value = "id") int id){
+    public ResponseEntity<Object> putUsuario(@RequestBody @Valid Usuario usuario, @PathVariable int id){
         
         Optional<Usuario> usuariobd = repository.findById(id);
         if(usuariobd.isEmpty()){
-            return "USUARIO NAO ENCONTRADO";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("Usuário não localizado").getMessage());
+        }
+        
+        usuario.setId(id);
+        BeanUtils.copyProperties(usuario, usuariobd.get());
+        
+        repository.save(usuario);
+        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+    }
+    
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id") int id){
+        
+        Optional<Usuario> usuariobd = repository.findById(id);
+        if(usuariobd.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
         }
         repository.delete(usuariobd.get());
-        return "USUARIO DELETADO!!!";
+        return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado Corretamente.");
     }
     
 }
