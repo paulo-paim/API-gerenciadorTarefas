@@ -1,0 +1,10 @@
+com\example\gerenciadorTarefas\Controllers\UsuarioController.class
+com\example\gerenciadorTarefas\Entities\SubTarefa.class
+com\example\gerenciadorTarefas\Repositories\SubTarefaRepository.class
+com\example\gerenciadorTarefas\Controllers\TarefaController.class
+com\example\gerenciadorTarefas\Entities\Usuario.class
+com\example\gerenciadorTarefas\GerenciadorTarefasApplication.class
+com\example\gerenciadorTarefas\Repositories\UsuarioRepository.class
+com\example\gerenciadorTarefas\Repositories\TarefaRepository.class
+com\example\gerenciadorTarefas\Entities\Tarefa.class
+com\example\gerenciadorTarefas\Controllers\SubTarefaController.class
