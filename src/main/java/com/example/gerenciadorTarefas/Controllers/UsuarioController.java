@@ -3,7 +3,6 @@ package com.example.gerenciadorTarefas.Controllers;
 import com.example.gerenciadorTarefas.Entities.Usuario;
 import com.example.gerenciadorTarefas.Repositories.UsuarioRepository;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;

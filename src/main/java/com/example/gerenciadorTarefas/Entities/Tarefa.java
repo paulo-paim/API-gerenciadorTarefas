@@ -31,11 +31,9 @@ public class Tarefa {
     private String descricao;
     
     @NotNull
-    @NotEmpty
-    @NotBlank
-    private char status;
+    private String status;
     
-    @NotNull
+    
     @ManyToOne
     @JoinColumn(name = "usuario")
     private Usuario usuario;
@@ -43,7 +41,7 @@ public class Tarefa {
     public Tarefa() {
     }
 
-    public Tarefa(int id, String titulo, String descricao, char status, Usuario usuario) {
+    public Tarefa(int id, String titulo, String descricao, String status, Usuario usuario) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -75,11 +73,11 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

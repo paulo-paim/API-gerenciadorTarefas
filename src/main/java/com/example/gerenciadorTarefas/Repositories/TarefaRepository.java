@@ -19,4 +19,7 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Integer>{
     
     @Query(nativeQuery = true, value="SELECT * FROM Tarefa WHERE usuario=:usuario")
     List<Tarefa> getTarefaByUsuario(int usuario);
+    
+    @Query(nativeQuery=true, value="select * from tarefa where usuario=:usuario and tarefa.id=:tarefa")
+    Tarefa getTarefaByUsuarioETarefa(int usuario, int tarefa);
 }
